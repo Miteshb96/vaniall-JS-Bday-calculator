@@ -1,0 +1,259 @@
+
+<html>
+    <head>
+        <title>
+            Birthday Cal
+        </title>
+        <link rel="stylesheet" href="App.css">
+    </head>
+    <body>
+        <div class="App">
+            <div class="App-div">
+                <p>
+                    Birthday Cal
+                </p>
+                <div class="flexDiv">
+                    <span class="weekday" id="1">
+                        <div id="count-1"> </div>
+                        <div class="head"> Mon </div>
+                        <div class="content" id="11"> </div>
+                    </span>
+                    <span class="weekday" id="2">
+                        <div id="count-2"> </div>
+                        <div class="head"> Tue </div>
+                        <div class="content" id="22"> </div>
+                    </span>
+                    <span class="weekday" id="3">
+                        <div id="count-3"> </div>
+                        <div class="head"> Web </div>
+                        <div class="content" id="33"> </div>
+                    </span>
+                    <span class="weekday" id="4">
+                        <div id="count-4"> </div>
+                        <div class="head"> Thu </div>
+                        <div class="content" id="44"> </div>
+                    </span>
+                    <span class="weekday" id="5">
+                        <div id="count-5"> </div>
+                        <div class="head"> Fri </div>
+                        <div class="content" id="55"> </div>
+                    </span>
+                    <span class="weekday" id="6">
+                        <div id="count-6"> </div>
+                        <div class="head"> Sat </div>
+                        <div class="content" id="66"> </div>
+                    </span>
+                    <span class="weekday" id="0">
+                        <div id="count-0"> </div>
+                        <div class="head"> Sun </div>
+                        <div class="content" id="00"> </div>
+                    </span>
+                </div>
+
+            </div>
+            <div class="flexDiv">
+                <textarea class="textArea" id="textArea" readonly ></textarea>
+                <div class="sideDiv">
+                    <span>Year</span>
+                    <input placeholder="Enter Year" class="input" maxlength="4" name="year" id="year"/>
+                    <button class="update" onclick="handleYearChange()" > Update </button>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let data = [
+            {
+                name: "Tyrion Lannister",
+                birthday: "12/02/1978"
+            }, {
+                name: "Cersei Lannister",
+                birthday: "11/30/1975"
+            }, {
+                name: "Daenerys Targaryen",
+                birthday: "11/24/1991"
+            }, {
+                name: "Arya Stark",
+                birthday: "11/25/1996"
+            }, {
+                name: "Jon Snow",
+                birthday: "12/03/1989"
+            }, {
+                name: "Sansa Stark",
+                birthday: "10/08/1992"
+            }, {
+                name: "Jorah Mormont",
+                birthday: "12/16/1968"
+            }, {
+                name: "Jaime Lannister",
+                birthday: "12/06/1975"
+            }, {
+                name: "Sandor Clegane",
+                birthday: "11/07/1969"
+            }, {
+                name: "Tywin Lannister",
+                birthday: "10/12/1951"
+            }, {
+                name: "Theon Greyjoy",
+                birthday: "12/31/1989"
+            }, {
+                name: "Samwell Tarly",
+                birthday: "12/07/1990"
+            }, {
+                name: "Joffrey Baratheon",
+                birthday: "06/12/1992"
+            }, {
+                name: "Catelyn Stark",
+                birthday: "12/03/1962"
+            }, {
+                name: "Bran Stark",
+                birthday: "12/02/1995"
+            }, {
+                name: "Petyr Baelish",
+                birthday: "11/20/1974"
+            }, {
+                name: "Robb Stark",
+                birthday: "11/28/1986"
+            }, {
+                name: "Brienne of Tarth",
+                birthday: "11/27/1985"
+            }, {
+                name: "Margaery Tyrell",
+                birthday: "12/02/1989"
+            }, {
+                name: "Stannis Baratheon",
+                birthday: "09/14/1971"
+            }, {
+                name: "Davos Seaworth",
+                birthday: "02/13/1973"
+            }, {
+                name: "Tormund Giantsbane",
+                birthday: "12/14/1974"
+            }, {
+                name: "Jeor Mormont",
+                birthday: "11/01/1955"
+            }, {
+                name: "Eddard Stark",
+                birthday: "12/02/1963"
+            }, {
+                name: "Khal Drogo",
+                birthday: "12/05/1980"
+            }, {
+                name: "Ramsay Bolton",
+                birthday: "12/05/1976"
+            }, {
+                name: "Robert Baratheon",
+                birthday: "12/02/1965"
+            }, {
+                name: "Daario Naharis",
+                birthday: "12/02/1985"
+            }, {
+                name: "Viserys Targaryen",
+                birthday: "12/06/1984"
+            }
+        ]
+        let result = ''
+        let updateFlag = false
+        function dataGen() {
+            data = data.sort((a,b) => new Date(b.birthday) - new Date(a.birthday))
+            result = `[ ${data.map(e=>JSON.stringify(e, undefined, 2))} ]`
+            const ele = document.getElementById("textArea")
+            ele.value = result
+        }
+        dataGen()
+        getFullYear(null)
+        function handleYearChange() {
+            const input = document.getElementById("year").value
+            const index = ["0", "1", "2", "3", "4", "5", "6"]
+            if(input.length > 0){
+                index.map(val => {
+                    const ele = document.getElementById(`${val}${val}`)
+                    const ele1 = document.getElementById(`count-${val}`)
+                    ele.innerHTML = null
+                    ele1.innerHTML = null
+                })
+                if(!updateFlag) {
+                    getFullYear(parseInt(input))
+                } else {
+                    getFullYear(null)
+                document.getElementById("year").value = ""
+                }
+                updateFlag = !updateFlag
+            }
+        }
+        function getFullYear(Year) {
+            let inputYear;
+            let people = data;
+            if(Year !== null) {
+                inputYear = Year;
+                people = data.filter((item) => {
+                    let date = new Date(item.birthday);
+                    if (date.getFullYear() === inputYear) {
+                    return item;
+                    }
+                });
+            }
+
+            people = people.sort((a,b) => b.birthday - a.birthday)
+            let weekDay = getWeekDay(people);
+            return weekDay;
+        }
+        function getWeekDay(people) {
+            const color = ["green", "crimson", "coral", "aqua", "darkcyan", "darkgray", "orange"];
+            const days = people.map((item) => {
+                let date = new Date(item.birthday);
+                return {...item, day: weekdays[date.getDay()], dayIndex: date.getDay(), acronym: item.name.match(/\b(\w)/g).join("")};
+            });
+            
+
+            days.map((item) => {
+                var span = document.getElementById(`${item.dayIndex}${item.dayIndex}`);
+                var div = document.createElement('span')
+                div.style.backgroundColor = color[span.childElementCount%7]
+                // div.style.width= "50%"
+                div.id = item.acronym
+                div.style.color= "white"
+                // div.style.height=  "8vh"
+                div.style.display= "flex"
+                div.style.borderRadius= "5px";
+                div.style.alignItems= "center";
+                div.style.justifyContent= "center";
+                div.innerHTML = item.acronym
+                
+                span.appendChild(div);
+            });
+            handleCountDisplay()
+            return days;
+        }
+        function handleCountDisplay() {
+            const index = ["0", "1", "2", "3", "4", "5", "6"]
+            index.map((val, I) => {
+                console.log("I >>> ", I)
+                var span = document.getElementById(`${val}${val}`);
+                var countDiv = document.getElementById(`count-${val}`);
+                var div = document.createElement("div")
+                div.style.margin= "3px"
+                div.style.height= "30px"
+                div.style.color= "white"
+                div.style.fontSize = "20px"
+                div.style.borderRadius= "15px"
+                div.style.backgroundColor= "gray"
+                div.innerHTML = span.childElementCount !== 0 ? `${span.childElementCount} Birthday` : "No Birthdays"
+                countDiv.appendChild(div);
+                var ChildNodes = span.childNodes
+                console.log("ChildNodes >>> ", ChildNodes.length)
+                if(ChildNodes.length > 1) {
+                    for(let i=1; i<ChildNodes.length; i++) {
+                        ChildNodes[i].style.width = `${ChildNodes.length >= 2 ? "50%" : "100%"}`
+                        ChildNodes[i].style.height = `${32/ChildNodes.length}vh`
+                    }
+                } else if(ChildNodes.length === 1) {
+                    ChildNodes[0].style.width = "100%"
+                    ChildNodes[0].style.height = "24vh"
+                }
+            })
+        }
+    </script>
+</html>
