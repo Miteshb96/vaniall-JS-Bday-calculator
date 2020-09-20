@@ -230,7 +230,6 @@
         function handleCountDisplay() {
             const index = ["0", "1", "2", "3", "4", "5", "6"]
             index.map((val, I) => {
-                console.log("I >>> ", I)
                 var span = document.getElementById(`${val}${val}`);
                 var countDiv = document.getElementById(`count-${val}`);
                 var div = document.createElement("div")
@@ -243,7 +242,6 @@
                 div.innerHTML = span.childElementCount !== 0 ? `${span.childElementCount} Birthday` : "No Birthdays"
                 countDiv.appendChild(div);
                 var ChildNodes = span.childNodes
-                console.log("ChildNodes >>> ", ChildNodes.length)
                 if(ChildNodes.length > 1) {
                     for(let i=1; i<ChildNodes.length; i++) {
                         ChildNodes[i].style.width = `${ChildNodes.length >= 2 ? "50%" : "100%"}`
